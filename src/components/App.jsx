@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ContactList from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { ContactForm } from './ContactForm/ContactForm';
@@ -11,24 +11,24 @@ import {
   selectfilteredArr,
   // selectIsOpenToWork,
 } from 'redux/selectors.phoneBook';
+import { useGetContactsQuery } from 'redux/rtk/rtk.api';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
   // const filter = useSelector(selectFilter);
   // const isOpenToWork = useSelector(selectIsOpenToWork);
   // селектори будуть перерендувати едементи, бо useSelector перевіряє попередній та поточні данні === ,а масиви та о'бєкти так будуть завжди false тому їх треба кешувати
-  const filteredArr = useSelector(selectfilteredArr);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  // const filteredArr = useSelector(selectfilteredArr);
+  const { data, error, isLoading } = useGetContactsQuery();
+  // useEffect(() => {
+  //   dispatch(fetchContacts());
+  // }, [dispatch]);
 
   const handleRemoveContact = id => dispatch(deleteContact(id));
   const handleSubmit = (name, number, isOpenToWork) => {
-    const isExist = contacts.find(user => user.name === name);
+    const isExist = data.find(user => user.name === name);
     if (!isExist) {
-      const newContact = { id: nanoid(), name, isOpenToWork, phone: number };
+      const newContact = { id: nanoid(), name, phone: number };
       dispatch(addContact(newContact));
     } else alert(`${name} is already in contact`);
   };
@@ -52,7 +52,7 @@ export const App = () => {
       <ContactForm onSubmit={handleSubmit} />
       <h2>Contacts</h2>
       <Filter />
-      <ContactList contacts={filteredArr} onClick={handleRemoveContact} />
+      <ContactList contacts={data} onClick={handleRemoveContact} />
     </div>
   );
 };

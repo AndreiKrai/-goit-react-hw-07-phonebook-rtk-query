@@ -1,19 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFilter } from 'redux/selectors.phoneBook';
+import { useDispatch } from 'react-redux';
+// import { selectFilter } from 'redux/selectors.phoneBook';
 import { setFilter, setIsOpenToWork } from 'redux/Slice/PhoneBookSlice';
 
 export const Filter = () => {
   const dispatch = useDispatch();
 
-  const filter = useSelector(selectFilter);
-
+  // const filter = useSelector(selectFilter);
 
   const handleChange = e => {
     dispatch(setFilter(e.target.value));
   };
 
   const handleRadioBtnChange = e => {
-    dispatch(setIsOpenToWork(e.target.value==='isOpenToWork'));
+    dispatch(setIsOpenToWork(e.target.value === 'isOpenToWork'));
   };
 
   return (
@@ -25,7 +24,7 @@ export const Filter = () => {
         </label>
         <input
           onChange={handleChange}
-          value={filter}
+          // value={filter}
           type="text"
           className="form-control"
           name="filter"
@@ -49,9 +48,8 @@ export const Filter = () => {
             id="flexRadioDefault1"
             value="isOpenToWork"
             // checked={`${isOpenToWork}`}
-
           />
-          <label className="form-check-label"htmlFor="flexRadioDefault1">
+          <label className="form-check-label" htmlFor="flexRadioDefault1">
             OpenToWork
           </label>
         </div>
@@ -65,7 +63,7 @@ export const Filter = () => {
             value="NotisOpenToWork"
             // checked={`${isOpenToWork}`}
           />
-          <label className="form-check-label"htmlFor="flexRadioDefault2">
+          <label className="form-check-label" htmlFor="flexRadioDefault2">
             NotOpenToWork
           </label>
         </div>
@@ -73,4 +71,3 @@ export const Filter = () => {
     </form>
   );
 };
-
